@@ -3,24 +3,19 @@ package ua.cn.stu.simplemvvm.views.changecolor
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvm_foundations_coroutine.databinding.ItemColorBinding
+import com.example.simplemvvm.views.changecolor.AdapterDiffCallback
 import ua.cn.stu.simplemvvm.model.colors.NamedColor
-import ua.cn.stu.simplemvvm.views.changecolor.ColorsAdapter.Listener
 
 /**
  * Adapter for displaying the list of available colors
  * @param listener callback which notifies about user actions on items in the list, see [Listener] for details.
  */
 class ColorsAdapter(
-    private val listener: Listener
-) : RecyclerView.Adapter<ColorsAdapter.Holder>(), View.OnClickListener {
-
-    var items: List<NamedColorListItem> = emptyList()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+    private val listener: AdapterListener
+) : ListAdapter< NamedColorListItem, ColorsAdapter.Holder> (AdapterDiffCallback()), View.OnClickListener {
 
     override fun onClick(v: View) {
         val item = v.tag as NamedColor
@@ -35,8 +30,9 @@ class ColorsAdapter(
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        val namedColor = items[position].namedColor
-        val selected = items[position].selected
+        val namedColor = getItem(position).namedColor
+        val selected = getItem(position).selected
+
         with(holder.binding) {
             root.tag = namedColor
             colorNameTextView.text = namedColor.name
@@ -45,14 +41,11 @@ class ColorsAdapter(
         }
     }
 
-    override fun getItemCount(): Int = items.size
 
-    class Holder(
-        val binding: ItemColorBinding
-    ) : RecyclerView.ViewHolder(binding.root)
+    class Holder(val binding: ItemColorBinding) : RecyclerView.ViewHolder(binding.root)
 
 
-    interface Listener {
+    interface AdapterListener {
         /**
          * Called when user chooses the specified color
          * @param namedColor color chosen by the user

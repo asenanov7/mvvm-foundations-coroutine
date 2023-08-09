@@ -52,7 +52,7 @@ class ChangeColorFragment : BaseFragment(), HasScreenTitle {
 
         collectFlow(viewModel.viewState) { result ->
             renderSimpleResult(binding.root, result) { viewState ->
-                adapter.items = viewState.colorsList
+                adapter.submitList(viewState.colorsList)
                 binding.saveButton.isVisible = viewState.showSaveButton
                 binding.cancelButton.isVisible = viewState.showCancelButton
 

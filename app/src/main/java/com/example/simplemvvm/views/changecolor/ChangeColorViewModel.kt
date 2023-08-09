@@ -27,7 +27,7 @@ class ChangeColorViewModel(
     private val resources: Resources,
     private val colorsRepository: ColorsRepository,
     savedStateHandle: SavedStateHandle,
-) : BaseViewModel(), ColorsAdapter.Listener {
+) : BaseViewModel(), ColorsAdapter.AdapterListener {
 
     // input sources
     private val _availableColors: ResultMutableStateFlow<List<NamedColor>> = MutableStateFlow(PendingResult())
