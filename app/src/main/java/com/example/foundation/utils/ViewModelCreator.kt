@@ -5,10 +5,9 @@ import androidx.activity.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-typealias ViewModelCreator = () -> ViewModel?
 
 class ViewModelCreatorFactory(
-    private val creator: ViewModelCreator
+    private val creator: () -> ViewModel?
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
@@ -20,6 +19,6 @@ class ViewModelCreatorFactory(
 /**
  * Create view-model directly by calling its constructor.
  */
-inline fun <reified VM : ViewModel> ComponentActivity.viewModelCreator(noinline creator: ViewModelCreator): Lazy<VM> {
+inline fun <reified VM : ViewModel> ComponentActivity.viewModelCreator(noinline creator: () -> ViewModel?): Lazy<VM> {
     return viewModels { ViewModelCreatorFactory(creator) }
 }
