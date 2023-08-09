@@ -14,15 +14,16 @@ sealed class Result<T> {
      * - success result of type T is converted to success result of type R, where conversion
      *   of ([SuccessResult.data] from T to R is conducted by [mapper]
      */
-    fun <R> map(mapper: Mapper<T, R>? = null): Result<R> = when(this) {
-        is PendingResult -> PendingResult()
-        is ErrorResult -> ErrorResult(this.exception)
-        is SuccessResult -> {
-            if (mapper == null) throw IllegalArgumentException("Mapper should not be NULL for success result")
-            SuccessResult(mapper(this.data))
+    fun <R> map(mapper: Mapper<T, R>? = null): Result<R> {
+        return when(this) {
+            is PendingResult -> PendingResult()
+            is ErrorResult -> ErrorResult(this.exception)
+            is SuccessResult -> {
+                if (mapper == null) throw IllegalArgumentException("Mapper should not be NULL for success result")
+                SuccessResult(mapper(this.data))
+            }
         }
     }
-
 }
 
 /**

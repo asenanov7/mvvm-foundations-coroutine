@@ -8,15 +8,18 @@ import kotlinx.coroutines.flow.*
  * Transform this Flow into Hot Shared Flow (like by using [shareIn] operator), but which is finite and
  * which also propagates exceptions from the source flow.
  */
-fun <T> Flow<T>.finiteShareIn(coroutineScope: CoroutineScope): Flow<T> {
+fun <T> Flow<T>.finiteShareIn(
+    coroutineScope: CoroutineScope,
+    started: SharingStarted = SharingStarted.Eagerly ,
+    replay: Int = 1 ): Flow<T> {
     return this
         .map<T, Element<T>> { item -> ItemElement(item) }
         .onCompletion { emit(CompletedElement()) }
         .catch { exception -> emit(ErrorElement(exception)) }
-        .shareIn(coroutineScope, SharingStarted.Eagerly, 1)
+        .shareIn(coroutineScope, started, replay)
         .map {
             if (it is ErrorElement) throw it.error
-            return@map it
+            else return@map it
         }
         .takeWhile { it is ItemElement }
         .map { (it as ItemElement).item }
