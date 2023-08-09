@@ -6,16 +6,13 @@ import androidx.lifecycle.asLiveData
 import com.example.mvvm_foundations_coroutine.R
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
 import ua.cn.stu.foundation.model.*
 import ua.cn.stu.foundation.sideeffects.navigator.Navigator
 import ua.cn.stu.foundation.sideeffects.resources.Resources
 import ua.cn.stu.foundation.sideeffects.toasts.Toasts
 import com.example.foundation.utils.finiteShareIn
+import kotlinx.coroutines.flow.*
 import ua.cn.stu.foundation.views.BaseViewModel
 import ua.cn.stu.foundation.views.ResultFlow
 import ua.cn.stu.foundation.views.ResultMutableStateFlow
@@ -36,7 +33,6 @@ class ChangeColorViewModel(
     private val _availableColors: ResultMutableStateFlow<List<NamedColor>> = MutableStateFlow(PendingResult())
     private val _currentColorId= MutableStateFlow(screen.currentColorId)
 
-    private val _currentColorIdMUTABLE = MutableStateFlow(_currentColorId.value)
     private val _instantSaveInProgress = MutableStateFlow<Progress>(EmptyProgress)
     private val _sampledSaveInProgress = MutableStateFlow<Progress>(EmptyProgress)
 

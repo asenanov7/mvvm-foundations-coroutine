@@ -4,10 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
-import ua.cn.stu.foundation.model.ErrorResult
-import ua.cn.stu.foundation.model.PendingResult
-import ua.cn.stu.foundation.model.Result
-import ua.cn.stu.foundation.model.SuccessResult
+import ua.cn.stu.foundation.model.*
 import ua.cn.stu.foundation.views.activity.ActivityDelegateHolder
 
 /**
@@ -44,6 +41,7 @@ abstract class BaseFragment : Fragment() {
             is SuccessResult -> onSuccess(result.data)
             is ErrorResult -> onError(result.exception)
             is PendingResult -> onPending()
+            is FinalResult -> TODO()
         }
 
     }

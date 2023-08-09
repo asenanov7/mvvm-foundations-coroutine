@@ -27,11 +27,11 @@ fun <T> Flow<T>.finiteShareIn(coroutineScope: CoroutineScope): Flow<T> {
 private sealed class Element<T>
 
 private class ItemElement<T>(
-    val item: T
+    val item: T,
 ) : Element<T>()
 
 private class ErrorElement<T>(
-    val error: Throwable
+    val error: Throwable,
 ) : Element<T>()
 
 private class CompletedElement<T> : Element<T>()
