@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import androidx.core.view.isVisible
 import androidx.lifecycle.SavedStateHandle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.mvvm_foundations_coroutine.R
@@ -52,10 +53,10 @@ class ChangeColorFragment : BaseFragment(), HasScreenTitle {
         collectFlow(viewModel.viewState) { result ->
             renderSimpleResult(binding.root, result) { viewState ->
                 adapter.items = viewState.colorsList
-                binding.saveButton.visibility = if (viewState.showSaveButton) View.VISIBLE else View.INVISIBLE
-                binding.cancelButton.visibility = if (viewState.showCancelButton) View.VISIBLE else View.INVISIBLE
+                binding.saveButton.isVisible = viewState.showSaveButton
+                binding.cancelButton.isVisible = viewState.showCancelButton
 
-                binding.saveProgressGroup.visibility = if (viewState.showSaveProgressBar) View.VISIBLE else View.GONE
+                binding.saveProgressGroup.isVisible = viewState.showSaveProgressBar
                 binding.saveProgressBar.progress = viewState.saveProgressPercentage
                 binding.savingPercentageTextView.text = viewState.saveProgressPercentageMessage
             }
